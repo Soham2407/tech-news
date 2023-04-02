@@ -26,6 +26,30 @@ const reducer = (state, action) => {
         searchQuery: action.payload,
       };
 
+    case "PREV_PAGE":
+      let pageNum = state.page;
+      if (pageNum <= 0) {
+        pageNum = 0;
+      } else {
+        pageNum = pageNum - 1;
+      }
+      return {
+        ...state,
+        page: pageNum,
+      };
+
+    case "NEXT_PAGE":
+      let pageNo = state.page;
+      if (pageNo >= state.noOfPages) {
+        pageNo = 0;
+      } else {
+        pageNo = pageNo + 1;
+      }
+      return {
+        ...state,
+        page: pageNo,
+      };
+
     default:
       return state;
   }

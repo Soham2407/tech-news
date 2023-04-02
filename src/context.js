@@ -34,8 +34,8 @@ const AppContetProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchData(`${API}query=${state.searchQuery}`);
-  }, [state.searchQuery]);
+    fetchData(`${API}query=${state.searchQuery}&page=${state.page}`);
+  }, [state.searchQuery, state.page]);
 
   // Delete news
   const removeNewsHandler = (id) => {
@@ -47,8 +47,26 @@ const AppContetProvider = ({ children }) => {
     dispatch({ type: "SEARCH_NEWS", payload: searchText });
   };
 
+  // prev page
+  const prevPageHandler = () => {
+    dispatch({ type: "PREV_PAGE" });
+  };
+
+  // next page
+  const nextPageHandler = () => {
+    dispatch({ type: "NEXT_PAGE" });
+  };
+
   return (
-    <AppContext.Provider value={{ ...state, removeNewsHandler, searchHandler }}>
+    <AppContext.Provider
+      value={{
+        ...state,
+        removeNewsHandler,
+        searchHandler,
+        prevPageHandler,
+        nextPageHandler,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

@@ -1,7 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
+import { useGlobalContext } from "../context";
 
 const Pagination = () => {
+  const { page, noOfPages, prevPageHandler, nextPageHandler } =
+    useGlobalContext();
   return (
     <Box
       sx={{
@@ -12,11 +15,15 @@ const Pagination = () => {
         my: 4,
       }}
     >
-      <Button variant="contained">Prev</Button>
+      <Button variant="contained" onClick={prevPageHandler}>
+        Prev
+      </Button>
       <Typography variant="body2" color="gray">
-        1 - 50
+        {page + 1} - {noOfPages}
       </Typography>
-      <Button variant="contained">Next</Button>
+      <Button variant="contained" onClick={nextPageHandler}>
+        Next
+      </Button>
     </Box>
   );
 };
