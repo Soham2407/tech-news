@@ -1,13 +1,13 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
 import React from "react";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { useGlobalContext } from "../context";
 
 const News = () => {
-  const { news, noOfPages } = useGlobalContext();
+  const { news, removeNewsHandler } = useGlobalContext();
   return (
     <div>
       {news.map((item) => (
-        <Paper sx={{ mb: 4, p: 2 }} elevation={3}>
+        <Paper sx={{ mb: 4, p: 2 }} elevation={3} key={item?.objectID}>
           <Typography variant="h5">{item.title}</Typography>
           <Box>
             <Typography variant="body2" component="span">
@@ -26,8 +26,14 @@ const News = () => {
               alignItems: "center",
             }}
           >
-            <Button sx={{ p: 0 }}>READ MORE</Button>
-            <Button sx={{ p: 0 }} color="error">
+            <Button sx={{ p: 0 }} target="_blank" href={item.url}>
+              READ MORE
+            </Button>
+            <Button
+              sx={{ p: 0 }}
+              color="error"
+              onClick={() => removeNewsHandler(item?.objectID)}
+            >
               REMOVE
             </Button>
           </Box>

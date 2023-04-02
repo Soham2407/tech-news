@@ -5,7 +5,7 @@ const AppContext = createContext();
 
 const initialState = {
   news: [],
-  searchQuery: "html",
+  searchQuery: "",
   page: 0,
   noOfPages: 0,
   isLoading: false,
@@ -17,6 +17,7 @@ const AppContetProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchData = async (api) => {
+    dispatch({ type: "SET_LOADING", payload: true });
     try {
       const res = await fetch(api);
       const data = await res.json();
@@ -34,9 +35,23 @@ const AppContetProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData(`${API}query=${state.searchQuery}`);
-  }, []);
+  }, [state.searchQuery]);
 
-  return <AppContext.Provider value={state}>{children}</AppContext.Provider>;
+  // Delete news
+  const removeNewsHandler = (id) => {
+    dispatch({ type: "REMOVE_NEWS", payload: id });
+  };
+
+  // Search news
+  const searchHandler = (searchText) => {
+    dispatch({ type: "SEARCH_NEWS", payload: searchText });
+  };
+
+  return (
+    <AppContext.Provider value={{ ...state, removeNewsHandler, searchHandler }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 const useGlobalContext = () => {
